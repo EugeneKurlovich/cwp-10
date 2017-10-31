@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 let _films = require("./top250.json");
+var bodyParser = require('body-parser')
+app.use( bodyParser.json() ); 
+
 
 app.get('/', (req, res) => {
   res.send("Hello World!!!");
@@ -25,20 +28,40 @@ res.send(newFilms);
 
 });
 
-app.get('/read', (req, res) => {
-  res.json(_films);
+app.post('/read',(req, res) => {
+  let id = req.body.id;
+ res.send(_films[id-1]);
 });
 
-app.get('/create', (req, res) => {
-  res.json(_films);
+app.post('/create', (req, res) => {
+    let id = Date.now().toString();
+    let title = req.body.title;
+    let rating = req.body.rating;
+    let year = req.body.year;
+    let budget = req.body.budget;
+    let gross = req.body.gross;
+    let poster = req.body.poster;
+    let position = req.body.position;
+
+console.log(id);
+console.log(title);
+console.log(rating);
+console.log(year);
+console.log(budget);
+console.log(gross);
+console.log(poster);
+console.log(position);
+
+
+res.send("qwe");
 });
 
-app.get('/update', (req, res) => {
-  res.json(_films);
+app.post('/update', (req, res) => {
+
 });
 
-app.get('/delete', (req, res) => {
-  res.json(_films);
+app.post('/delete', (req, res) => {
+  
 });
 
 
