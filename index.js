@@ -47,10 +47,17 @@ app.post('/create', (req, res) => {
 
     if(validatorController.validateCreate(req.body))
      {
+       if (validatorController.validateBudgetAndGross(req.body))
+       {
         req.body.id = Date.now().toString();
         _films.push(req.body);
         fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
         res.send(req.body);
+       }
+       else
+       {
+         res.send("(budget or gross) < 0");
+       }
      }
     else
      {

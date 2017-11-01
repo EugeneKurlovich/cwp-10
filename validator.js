@@ -10,6 +10,16 @@ function validateCreate(body) {
         return false;
 }
 
+function validateBudgetAndGross(body) {
+    if (body.budget > 0 || body.gross > 0 ) 
+    {
+        return true;
+    }
+        return false;
+}
+
+
 module.exports = {
-    validateCreate
+    validateCreate,
+    validateBudgetAndGross
 };
