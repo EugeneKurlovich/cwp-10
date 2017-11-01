@@ -53,7 +53,21 @@ fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
 });
 
 app.post('/update', (req, res) => {
-
+for (let i = 0 ; i < _films.length; i ++)
+{
+    if (_films[i].id === req.body.id)
+    {
+      _films[i].title = req.body.title;
+      _films[i].rating = req.body.rating;
+      _films[i].year = req.body.year;
+      _films[i].budget = req.body.budget;
+      _films[i].gross = req.body.gross;
+      _films[i].poster = req.body.poster;
+      _films[i].position = req.body.position;
+    }
+}
+ fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
+    res.send(req.body);
 });
 
 app.post('/delete', (req, res) => {
