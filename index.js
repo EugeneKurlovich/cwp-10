@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 let _films = require("./top250.json");
 var bodyParser = require('body-parser');
+let validatorController =  require('./validator');
 const fs = require('fs');
 app.use( bodyParser.json() ); 
 
@@ -35,21 +36,26 @@ app.post('/read',(req, res) => {
 });
 
 app.post('/create', (req, res) => {
-    let id = Date.now().toString();
+   /* let id = Date.now().toString();
     let title = req.body.title;
     let rating = req.body.rating;
     let year = req.body.year;
     let budget = req.body.budget;
     let gross = req.body.gross;
     let poster = req.body.poster;
-    let position = req.body.position;
+    let position = req.body.position;*/
 
-req.body.id = Date.now().toString();
-
-_films.push(req.body);
-fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
+    if(validatorController.validateCreate(req.body))
+     {
+        req.body.id = Date.now().toString();
+        _films.push(req.body);
+        fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
         res.send(req.body);
-
+     }
+    else
+     {
+        res.send("add all data");
+     }
 });
 
 app.post('/update', (req, res) => {
