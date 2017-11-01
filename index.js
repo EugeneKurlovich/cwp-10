@@ -71,7 +71,10 @@ for (let i = 0 ; i < _films.length; i ++)
 });
 
 app.post('/delete', (req, res) => {
-  
+   _films.splice(_films.findIndex(film => film.id === req.body.id), 1);
+  fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
+
+  res.send("DELETED");
 });
 
 
