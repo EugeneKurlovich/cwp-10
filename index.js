@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 let _films = require("./top250.json");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+const fs = require('fs');
 app.use( bodyParser.json() ); 
 
 
@@ -43,17 +44,12 @@ app.post('/create', (req, res) => {
     let poster = req.body.poster;
     let position = req.body.position;
 
-console.log(id);
-console.log(title);
-console.log(rating);
-console.log(year);
-console.log(budget);
-console.log(gross);
-console.log(poster);
-console.log(position);
+req.body.id = Date.now().toString();
 
+_films.push(req.body);
+fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
+        res.send(req.body);
 
-res.send("qwe");
 });
 
 app.post('/update', (req, res) => {
