@@ -81,8 +81,25 @@ for (let i = 0 ; i < _films.length; i ++)
       _films[i].gross = req.body.gross;
       _films[i].poster = req.body.poster;
       _films[i].position = req.body.position;
+
     }
+
+      if (_films[i].position === req.body.position && _films[i].id !== req.body.id)
+      {        
+           ++ _films[i].position;
+           ++i; 
+            while (i !== _films.length)
+            {
+++_films[i].position;
+++i;
+            }
+         
+       
+      }
+
 }
+
+
  fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
     res.send(req.body);
 });
