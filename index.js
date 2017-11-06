@@ -36,20 +36,24 @@ app.post('/read',(req, res) => {
 });
 
 app.post('/create', (req, res) => {
-   /* let id = Date.now().toString();
-    let title = req.body.title;
-    let rating = req.body.rating;
-    let year = req.body.year;
-    let budget = req.body.budget;
-    let gross = req.body.gross;
-    let poster = req.body.poster;
-    let position = req.body.position;*/
-
     if(validatorController.validateCreate(req.body))
      {
        if (validatorController.validateBudgetAndGross(req.body))
        {
         req.body.id = Date.now().toString();
+
+          for (let i = 0 ; i < _films.length ; i ++)
+          {
+            if(req.body.position === _films[i].position)
+            {
+                let j = i;
+                for (j; j < _films.length-i; j++)
+                {
+                   ++ _films[j].position;
+                }
+            }
+          }
+
         _films.push(req.body);
         fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
         res.send(req.body);
