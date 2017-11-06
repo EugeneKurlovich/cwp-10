@@ -57,6 +57,7 @@ app.post('/create', (req, res) => {
         _films.push(req.body);
         fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
         res.send(req.body);
+        checkSpaces();
        }
        else
        {
@@ -86,17 +87,14 @@ for (let i = 0 ; i < _films.length; i ++)
 
       if (_films[i].position === req.body.position && _films[i].id !== req.body.id)
       {        
-           ++ _films[i].position;
-           ++i; 
+        ++ _films[i].position;
+        ++i; 
             while (i !== _films.length)
             {
-++_films[i].position;
-++i;
+              ++_films[i].position;
+              ++i;
             }
-         
-       
       }
-
 }
 
 
@@ -108,9 +106,27 @@ app.post('/delete', (req, res) => {
    _films.splice(_films.findIndex(film => film.id === req.body.id), 1);
   fs.writeFile("top250.json", JSON.stringify(_films), "utf8", function () { });
 
+checkSpaces();
   res.send("DELETED");
 });
 
+
+function checkSpaces()
+{
+_films.sort((a, b) => {
+
+                    if (a.position > b.position) return 1;
+                    if (a.position === b.position) return 0;
+                    if (a.position < b.position) return-1;          
+        });
+
+let a = 1;
+  for (let i = 0 ; i < _films.length; i ++)
+  {
+    _films[i].position = a;
+    ++a;
+  }
+}
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
